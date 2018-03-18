@@ -1,5 +1,5 @@
 {
-  "name": "infinite-note",
+  "name": "bookmate-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,13 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "vue": "^2.5.13"
+    "lodash": "^4.17.5",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
+    "spectre.css": "^0.5.1",
+    "vue": "^2.5.13",
+    "vue-router": "^3.0.1",
+    "vue-wysiwyg": "^1.4.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-alpha.5",
@@ -28,7 +34,10 @@
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended"
-    ]
+    ],
+    "rules": {
+      "no-console": "off"
+    }
   },
   "postcss": {
     "plugins": {
