@@ -45,10 +45,6 @@ img {
   flex: 1;
 }
 
-.breadcrumb-item a {
-  text-decoration: underline;
-}
-
 .mb-3 {
   margin-bottom: 0.6rem;
 }
@@ -59,5 +55,12 @@ img {
 
 .mb-5 {
   margin-bottom: 1rem;
+}
+
+.breadcrumb {
+  margin-top: 0.8rem;
+  margin-bottom: 0.4rem;
+  padding: 0 0.4rem;
+  border-bottom: 1px solid #e7e9ed;
 }
 </style>

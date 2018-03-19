@@ -24,7 +24,9 @@
           </div>
         </div>
       </div>
+
       <div class="loading loading-lg" v-show="searchLoading"></div>
+
       <div class="search-results" v-if="bookSearch.length">
         <div class="tile mb-2" v-for="(book, index) in bookSearch" :key="index">
           <div class="tile-icon">
