@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar bg-primary pl-2 pr-2 pt-1 pb-1">
+  <nav class="navbar bg-secondary pl-2 pr-2 pt-1 pb-1">
     <div class="top">
       <span class="welcome">Welcome, Adam!</span>
       <a href="#">Sign Out</a>
@@ -22,10 +22,6 @@
   margin-left: -0.4rem;
   margin-right: -0.4rem;
   border-radius: 5rem;
-
-  a.btn-link {
-    color: #fff;
-  }
 
   .top {
     position: absolute;

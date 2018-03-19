@@ -33,7 +33,7 @@
             <img :src="book.imageLinks.smallThumbnail" />
           </div>
           <div class="tile-content">
-            <h5 class="tile-title">{{book.title}}</h5>
+            <h5 class="tile-title mb-1">{{book.title}}</h5>
             <p class="tile-subtitle text-gray">{{book.authors.join(', ')}}</p>
           </div>
           <div class="tile-action">
@@ -152,7 +152,7 @@ export default {
 .search-results {
   .tile {
     .tile-icon {
-      max-width: 3rem;
+      max-width: 2rem;
     }
 
     .tile-content {

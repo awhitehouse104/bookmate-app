@@ -21,7 +21,8 @@
     <section class="edit-note" v-if="tab === 'addNote'">
       <wysiwyg v-model="editNote.content" />
       <div class="actions">
-        <button class="btn btn-primary" @click.prevent="saveNote()">Save Note</button>
+        <button class="btn btn-primary mr-2" @click.prevent="saveNote()">Save Note</button>
+        <button class="btn" @click.prevent="setTab('notes')">Cancel</button>
       </div>
     </section>
 
