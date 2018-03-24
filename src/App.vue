@@ -19,15 +19,34 @@ export default {
 </script>
 
 <style lang="scss">
+$primary-color: #4183D7;
+
 @import url('https://fonts.googleapis.com/css?family=Slabo+27px');
 @import "~spectre.css/src/spectre";
 @import "~spectre.css/dist/spectre-icons";
 @import "~vue-wysiwyg/dist/vueWysiwyg.css";
 
+html, body {
+  height: 100%;
+  background: #f0f1f4;
+}
+
+body {
+  display: inline-block;
+  width: 100%;
+}
+
 #app {
-  width: 800px;
+  width: 900px;
   max-width: 90%;
   margin: 0 auto;
+  min-height: calc(100% - 3rem);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 0.1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
 * {
@@ -58,9 +77,9 @@ img {
 }
 
 .breadcrumb {
-  margin-top: 0.8rem;
   margin-bottom: 0.4rem;
   padding: 0 0.4rem;
-  border-bottom: 1px solid #e7e9ed;
+  border: 1px solid #e7e9ed;
+  border-radius: 0.1rem;
 }
 </style>

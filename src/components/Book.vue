@@ -9,7 +9,7 @@
       </li>
     </ul>
 
-    <ul class="tab tab-block mb-5">
+    <ul class="tab tab-block mb-4">
       <li class="tab-item" :class="{active: tab === 'notes'}">
         <a href="#" @click.prevent="setTab('notes')">Notes</a>
       </li>
@@ -32,14 +32,14 @@
         <div class="loading loading-lg" v-show="notesLoading"></div>
       </div>
 
-      <div class="form-horizontal mb-2" v-if="book.notes.length && tags.length">
+      <div class="form-horizontal p-0 mb-4" v-if="book.notes.length && tags.length">
         <div class="form-group">
           <div class="col-2 col-sm-12">
             <label for="tag-filter" class="form-label">Filter by Tag</label>
           </div>
           <div class="col-10 col-sm-12">
             <select name="tag-filter" class="form-select" v-model="tagFilter">
-              <option value="all">All</option>
+              <option value="all">Show All</option>
               <option :value="tag.content" v-for="(tag, index) in tags" :key="index">{{tag.content}}</option>
             </select>
           </div>
@@ -47,32 +47,38 @@
       </div>
 
       <div class="note mb-4" v-for="(note, index) in book.notes" :key="index" v-if="showNote(note)">
-        <div class="tools">
+        <div class="tools mb-5">
+          <div class="tags">
+            <span class="edit-tag" v-if="note.editTag">
+              <span class="chip">
+                <i class="avatar avatar-sm icon icon-check" :class="{'c-hand': note.editTag.content && note.editTag.content.length, 'bg-dark': !note.editTag.content || !note.editTag.content.length, 'bg-primary': note.editTag.content && note.editTag.content.length}" @click.prevent="saveTag(note)"></i>
+                <input type="text" :ref="`edittag${note.id}`" @input="tagLookup" v-model="note.editTag.content">
+                <a href="#" class="btn btn-clear" aria-label="Close" role="button" @click.prevent="cancelTag(note)"></a>
+              </span>
+            </span>
+            <span class="chip" v-for="(tag, index) in note.tags" :key="index">
+              {{tag.content}}
+              <a href="#" class="btn btn-clear" aria-label="Close" role="button" @click.prevent="deleteTag(note, tag)"></a>
+            </span>
+            <a href="#" class="ml-1" @click.prevent="addTag(note)" v-if="!note.editTag">Add a Tag</a>
+          </div>
+
+          <span class="flex"></span>
+
           <div class="btn-group">
-            <button class="btn btn-link" @click.prevent="addTag(note)">Add a Tag</button>
-            <button class="btn btn-link" @click.prevent="edit(note)">Edit</button>
-            <button class="btn btn-link" @click.prevent="deleteNote(note)">Delete</button>
+            <button class="btn btn-primary btn-action mr-2" @click.prevent="edit(note)">
+              <i class="icon icon-edit"></i>
+            </button>
+            <button class="btn btn-primary btn-action" @click.prevent="deleteNote(note)">
+              <i class="icon icon-delete"></i>
+            </button>
           </div>
         </div>
 
-        <div class="tags mb-5">
-          <span class="edit-tag" v-if="note.editTag">
-            <span class="chip">
-              <i class="avatar avatar-sm icon icon-check bg-dark" :class="{'c-hand': note.editTag.content && note.editTag.content.length, 'bg-success': note.editTag.content && note.editTag.content.length}" @click.prevent="saveTag(note)"></i>
-              <input type="text" :ref="`edittag${note.id}`" @input="tagLookup" v-model="note.editTag.content">
-              <a href="#" class="btn btn-clear" aria-label="Close" role="button" @click.prevent="cancelTag(note)"></a>
-            </span>
-            <div class="lookup-tags mt-2" v-if="note.editTag.lookupTags.length">
-              <span>Add an existing tag:</span>
-              <span class="chip c-hand" v-for="(tag, index) in note.editTag.lookupTags" :key="index" @click.prevent="addLookupTag(note, tag)">
-                {{tag.content}}
-              </span>
-            </div>
-          </span>
-
-          <span class="chip" v-for="(tag, index) in note.tags" :key="index">
+        <div class="lookup-tags mb-5" v-if="note.editTag && note.editTag.lookupTags.length">
+          <span class="mr-1">Add an existing tag:</span>
+          <span class="chip bg-primary text-light c-hand" v-for="(tag, index) in note.editTag.lookupTags" :key="index" @click.prevent="addLookupTag(note, tag)">
             {{tag.content}}
-            <a href="#" class="btn btn-clear" aria-label="Close" role="button" @click.prevent="deleteTag(note, tag)"></a>
           </span>
         </div>
 
@@ -248,6 +254,7 @@ export default {
 .edit-note {
   .editr {
     margin-bottom: 0.4rem;
+    border-radius: 0.1rem;
   }
 
   .actions {
@@ -257,8 +264,9 @@ export default {
 }
 
 .note {
-  padding: 0.75rem 1rem 1rem 1rem;
+  padding: 1rem;
   border: 1px solid #e7e9ed;
+  border-radius: 0.1rem;
 
   .tools, .tags {
     display: flex;
@@ -268,17 +276,21 @@ export default {
     }
   }
 
-  .tools {
-    justify-content: end;
-  }
-
   .tags {
+    align-items: center;
+
     .chip input {
       height: 24px;
       background: transparent;
       border: none;
       color: inherit;
     }
+  }
+
+  .lookup-tags {
+    display: flex;
+    align-items: baseline;
+    margin-top: -0.6rem;
   }
 }
 </style>

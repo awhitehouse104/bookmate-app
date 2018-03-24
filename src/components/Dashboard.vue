@@ -6,7 +6,7 @@
       </li>
     </ul>
 
-    <ul class="tab tab-block mb-5">
+    <ul class="tab tab-block mb-4">
       <li class="tab-item" :class="{active: tab === 'myBooks'}">
         <a href="#" @click.prevent="setTab('myBooks')">My Books</a>
       </li>
@@ -37,13 +37,15 @@
             <p class="tile-subtitle text-gray">{{book.authors.join(', ')}}</p>
           </div>
           <div class="tile-action">
-            <button class="btn" @click.prevent="addToCollection(book)">Add to library</button>
+            <button class="btn btn-primary btn-action" @click.prevent="addToCollection(book)">
+              <i class="icon icon-plus"></i>
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <main  v-if="tab === 'myBooks'">
+    <main v-if="tab === 'myBooks'">
       <div class="empty-state" v-if="!books.length">
         <p class="text-gray" v-if="!booksLoading">You don't have any books in your library yet. Use the search bar above to get started.</p>
         <div class="loading loading-lg" v-if="booksLoading"></div>
@@ -163,22 +165,17 @@ export default {
 }
 
 .book-image {
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  border: 1px solid #e7e9ed;
 }
 
 .books {
   display: grid;
-  grid-template-columns: repeat(auto-fill, calc(16.66% - 1.5rem));
-  grid-column-gap: 1.5rem;
-  grid-row-gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, calc(16.66% - 1rem));
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
 
   .book-image {
     width: 100%;
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-
-    &:hover {
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
   }
 }
 </style>

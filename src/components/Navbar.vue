@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar bg-secondary pl-2 pr-2 pt-1 pb-1">
+  <nav class="navbar pr-1 pl-1 pt-2 pb-2">
     <div class="top">
       <span class="welcome">Welcome, Adam!</span>
       <a href="#">Sign Out</a>
@@ -17,17 +17,24 @@
 <style lang="scss" scoped>
 .navbar {
   position: relative;
-  margin-top: 3rem;
-  margin-bottom: 0.4rem;
-  margin-left: -0.4rem;
-  margin-right: -0.4rem;
-  border-radius: 5rem;
+  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+  background: #f0f1f4;
+  border-radius: 0.1rem;
+
+  .btn-link {
+    color: #667189;
+
+    &:hover {
+      color: #50596c;
+    }
+  }
 
   .top {
     position: absolute;
     top: -1.5rem;
-    right: 0.9rem;
-    color: #333;
+    right: 0.6rem;
+    color: #50596c;
 
     .welcome {
       margin-right: 0.5rem;
