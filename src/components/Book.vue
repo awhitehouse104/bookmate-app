@@ -6,6 +6,8 @@
       </li>
       <li class="breadcrumb-item">
         <router-link :to="{name: 'book', params: {id: book.bookId}}">{{book.title}}</router-link>
+        <span class="flex"></span>
+        <a href="#" class="text-error" @click.prevent="confirmDeleteBook.show = true">Delete Book</a>
       </li>
     </ul>
 
@@ -69,7 +71,7 @@
             <button class="btn btn-primary btn-action mr-2" @click.prevent="edit(note)">
               <i class="icon icon-edit"></i>
             </button>
-            <button class="btn btn-primary btn-action" @click.prevent="deleteNote(note)">
+            <button class="btn btn-primary btn-action" @click.prevent="setDeleteNote(note)">
               <i class="icon icon-delete"></i>
             </button>
           </div>
@@ -85,6 +87,65 @@
         <div class="content" v-html="note.content"></div>
       </div>
     </main>
+
+    <div class="modal modal-sm" :class="{active: confirmDeleteBook.show}">
+      <a href="#close" class="modal-overlay" @click.prevent="confirmDeleteBook.show = false" aria-label="Close"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <a href="#close" class="btn btn-clear float-right" @click.prevent="confirmDeleteBook.show = false" aria-label="Close"></a>
+          <div class="modal-title h5">Confirm Delete</div>
+        </div>
+        <div class="modal-body">
+          <div class="content">
+            Are you sure you want do delete this book and all of its notes?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary mr-2" @click.prevent="deleteBook(book.id)">Confirm</button>
+          <button class="btn btn-link" @click.prevent="confirmDeleteBook.show = false">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- confirm delete book modal -->
+    <div class="modal modal-sm" :class="{active: confirmDeleteBook.show}">
+      <a href="#close" class="modal-overlay" @click.prevent="confirmDeleteBook.show = false" aria-label="Close"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <a href="#close" class="btn btn-clear float-right" @click.prevent="confirmDeleteBook.show = false" aria-label="Close"></a>
+          <div class="modal-title h5">Confirmation</div>
+        </div>
+        <div class="modal-body">
+          <div class="content">
+            Are you sure you want do delete this book and all the notes it contains?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-error mr-2" @click.prevent="deleteBook(book.id)">Confirm</button>
+          <button class="btn btn-link" @click.prevent="confirmDeleteBook.show = false">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- confirm delete note modal -->
+    <div class="modal modal-sm" :class="{active: confirmDeleteNote.show}">
+      <a href="#close" class="modal-overlay" @click.prevent="confirmDeleteNote.show = false" aria-label="Close"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <a href="#close" class="btn btn-clear float-right" @click.prevent="confirmDeleteNote.show = false" aria-label="Close"></a>
+          <div class="modal-title h5">Confirmation</div>
+        </div>
+        <div class="modal-body">
+          <div class="content">
+            Are you sure you want do delete this note?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary mr-2" @click.prevent="deleteNote()">Confirm</button>
+          <button class="btn btn-link" @click.prevent="confirmDeleteNote.show = false">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -100,7 +161,13 @@ export default {
       editNote: null,
       notesLoading: false,
       tags: [],
-      tagFilter: 'all'
+      tagFilter: 'all',
+      confirmDeleteBook: {
+        show: false
+      },
+      confirmDeleteNote: {
+        show: false
+      }
     }
   },
   methods: {
@@ -209,14 +276,21 @@ export default {
         this.notesLoading = false
       }
     },
-    async deleteNote(note) {
+    setDeleteNote(note) {
+      this.confirmDeleteNote = {
+        show: true,
+        note
+      }
+    },
+    async deleteNote() {
       try {
-        const response = await fetch(`http://localhost:3001/note?id=${note.id}`, {
+        const response = await fetch(`http://localhost:3001/note?id=${this.confirmDeleteNote.note.id}`, {
           method: 'DELETE'
         })
         const deletedId = await response.json()
 
         this.book.notes.splice(this.book.notes.indexOf(this.book.notes.find(n => n.id === deletedId)), 1)
+        this.confirmDeleteNote.show = false
       } catch(e) {
         console.log(e)
       }
@@ -231,7 +305,18 @@ export default {
         })
         return next
       }, [])
-    }
+    },
+    async deleteBook(id) {
+      try {
+        await fetch (`http://localhost:3001/book?id=${id}`, {
+          method: 'DELETE'
+        })
+
+        this.$router.push({name: 'library'})
+      } catch(e) {
+        console.log(e)
+      }
+    },
   },
   async beforeMount() {
     this.notesLoading = true
@@ -251,6 +336,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.breadcrumb {
+  display: flex;
+
+  .breadcrumb-item:last-child {
+    display: flex;
+    flex: 1;
+  }
+}
+
 .edit-note {
   .editr {
     margin-bottom: 0.4rem;

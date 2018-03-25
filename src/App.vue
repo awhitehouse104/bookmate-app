@@ -40,7 +40,7 @@ body {
   width: 900px;
   max-width: 90%;
   margin: 0 auto;
-  min-height: calc(100% - 3rem);
+  min-height: calc(100% - 2rem);
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding: 2rem;
